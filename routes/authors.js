@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Author = require('../models/author')
 
+
 // All Authors Route
 router.get('/', async (req, res) => {
     let searchOptions = {}
@@ -17,11 +18,6 @@ router.get('/', async (req, res) => {
         res.redirect('/')
     }
     
-})
-
-// New Author Route
-router.get('/new', (req,res) => {
-    res.render('authors/new', {author: new Author()})
 })
 
 // Create Author Route
@@ -40,5 +36,38 @@ router.post('/', async(req, res) => {
         })
     }
 })
+
+// Get a specific Author
+router.get(':/id', async(req, res) => {
+    res.send('Show Author ' + req.params.id)
+})
+
+// Edit an Author
+router.get(':/id', async(req, res) => {
+    try{
+        const author = Author.findById(req.params.id)
+        res.render('authors/edit/' + {author: author})
+    } catch {
+        res.redirect('/authors')
+    }
+    
+})
+
+// Update an Author
+router.put(':/id', (req,res) => {
+    res.send('Update Author' + req.params.id)
+})
+
+
+// New Author Route
+router.get('/new', (req,res) => {
+    res.render('authors/new', {author: new Author()})
+})
+
+// Delete an Author
+router.delete(':/id', (req, res) => {
+    res.send('Delete Author ' + req.params.id)
+})
+
 
 module.exports = router
